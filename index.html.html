@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="pl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1994 Chevy C/K 1500 Parts & Compatibility Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        chevy: {
+                            gold: '#d4af37',
+                            goldHover: '#b89628',
+                            orange: '#f97316',
+                            orangeDark: '#ea580c',
+                            amber: '#f59e0b'
+                        },
+                        workshop: {
+                            950: '#0a0c10',
+                            900: '#11141c',
+                            800: '#191e29',
+                            700: '#242b3b',
+                            600: '#323c52'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #11141c; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #323c52; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #f97316; }
+        
+        /* Industrial diagonal stripe accent */
+        .hazard-border {
+            background: repeating-linear-gradient(
+                -45deg,
+                #191e29,
+                #191e29 10px,
+                #242b3b 10px,
+                #242b3b 20px
+            );
+        }
+    </style>
+</head>
+<body class="bg-workshop-950 text-gray-100 min-h-screen flex flex-col custom-scrollbar">
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Top Locked Vehicle Header -->
+    <header class="bg-workshop-900 border-b-2 border-chevy-orange/60 sticky top-0 z-40 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                
+                <!-- Brand & Locked Vehicle Identity -->
+                <div class="flex items-center space-x-3.5">
+                    <div class="bg-gradient-to-br from-chevy-gold to-chevy-orange p-3 rounded-xl shadow-lg text-workshop-950 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-truck-pickup text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white">
+                                1994 CHEVROLET <span id="headerDriveModel" class="text-chevy-orange">K1500</span> PICKUP
+                            </h1>
+                            <span class="text-[11px] uppercase bg-chevy-gold/20 text-chevy-gold border border-chevy-gold/40 px-2 py-0.5 rounded font-bold tracking-wider">
+                                <i class="fa-solid fa-lock text-[9px] mr-1"></i>GMT400 LOCKED
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+                            <span><strong class="text-gray-200">Silnik:</strong> 5.7L V8 (350ci) TBI • 200 KM (149 kW)</span>
+                            <span><strong class="text-gray-200">8. znak VIN:</strong> <code class="text-chevy-orange font-bold">K</code> (L05) / <code class="text-chevy-gold font-bold">7</code> (HD)</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Controls: 2WD vs 4WD Switcher & Clipboard Counter -->
+                <div class="flex flex-wrap items-center justify-between lg:justify-end gap-3">
+                    
+                    <!-- Drive Type Switcher -->
+                    <div class="bg-workshop-950 p-1 rounded-xl border border-workshop-700 flex items-center">
+                        <span class="text-[11px] text-gray-400 px-2.5 hidden sm:inline font-medium">Napęd:</span>
+                        <button onclick="setDriveType('4WD')" id="btn-4wd" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-chevy-orange text-white shadow">
+                            4WD (K1500)
+                        </button>
+                        <button onclick="setDriveType('2WD')" id="btn-2wd" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white">
+                            2WD (C1500)
+                        </button>
+                    </div>
+
+                    <!-- Workshop Clipboard Quick Button -->
+                    <button onclick="switchTab('clipboard')" class="bg-workshop-800 hover:bg-workshop-700 border border-workshop-600 text-gray-200 px-3.5 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-2 relative">
+                        <i class="fa-solid fa-clipboard-list text-chevy-gold text-sm"></i>
+                        <span>Schowek</span>
+                        <span id="clipboardBadge" class="bg-chevy-orange text-white text-[11px] font-bold px-1.5 py-0.2 rounded-full">0</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- GMT400 Cross-Reference Info Strip -->
+        <div class="bg-workshop-900 border border-workshop-700 rounded-2xl p-4 sm:p-5 shadow-xl">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="space-y-1 max-w-2xl">
+                    <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-code-branch text-chevy-gold"></i>
+                        Matryca Kompatybilności Krzyżowej GMT400 (Rocznik 1994)
+                    </h2>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Gdy część jest niedostępna pod <strong class="text-gray-200">Chevy Silverado C/K 1500</strong>, aplikacja automatycznie weryfikuje zamienność z bliźniakami platformy GMT400 z rocznika <strong class="text-chevy-orange">1994</strong> (identyczny silnik 5.7 TBI, układ kierowniczy, przedni most oraz hamulce):
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 shrink-0">
+                    <div class="bg-workshop-800 border border-workshop-600 px-3 py-2 rounded-xl">
+                        <div class="text-[11px] font-bold text-white">GMC C/K 1500</div>
+                        <div class="text-[10px] text-emerald-400 font-medium">Sierra • 100% Bliźniak</div>
+                    </div>
+                    <div class="bg-workshop-800 border border-workshop-600 px-3 py-2 rounded-xl">
+                        <div class="text-[11px] font-bold text-white">Suburban 1500</div>
+                        <div class="text-[10px] text-emerald-400 font-medium">Chevy/GMC • Przód/Silnik</div>
+                    </div>
+                    <div class="bg-workshop-800 border border-workshop-600 px-3 py-2 rounded-xl">
+                        <div class="text-[11px] font-bold text-white">Tahoe / Yukon</div>
+                        <div class="text-[10px] text-emerald-400 font-medium">1994 • Napęd/Zawieszenie</div>
+                    </div>
+                    <div class="bg-workshop-800 border border-workshop-600 px-3 py-2 rounded-xl">
+                        <div class="text-[11px] font-bold text-white">Blazer Full-Size</div>
+                        <div class="text-[10px] text-chevy-gold font-medium">1994 • Ostatni rocznik</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Primary Navigation Tabs -->
+        <nav class="flex overflow-x-auto space-x-2 bg-workshop-900 p-1.5 rounded-2xl border border-workshop-700 custom-scrollbar">
+            <button onclick="switchTab('catalog')" id="tab-catalog" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-chevy-orange text-white shadow-md flex items-center gap-2">
+                <i class="fa-solid fa-gears"></i> Katalog Części (26)
+            </button>
+            <button onclick="switchTab('shops')" id="tab-shops" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all text-gray-400 hover:bg-workshop-800 hover:text-white flex items-center gap-2">
+                <i class="fa-solid fa-store"></i> Katalog 11 Sklepów (PL / USA / EU)
+            </button>
+            <button onclick="switchTab('calculator')" id="tab-calculator" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all text-gray-400 hover:bg-workshop-800 hover:text-white flex items-center gap-2">
+                <i class="fa-solid fa-calculator"></i> Kalkulator Importu USA
+            </button>
+            <button onclick="switchTab('clipboard')" id="tab-clipboard" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all text-gray-400 hover:bg-workshop-800 hover:text-white flex items-center gap-2">
+                <i class="fa-solid fa-file-invoice"></i> Schowek Warsztatowy & Eksport
+            </button>
+        </nav>
+
+        <!-- ===================================================================== -->
+        <!-- TAB 1: CATALOG & SEARCH -->
+        <!-- ===================================================================== -->
+        <section id="view-catalog" class="space-y-5">
+            
+            <!-- Search & Filter Control Panel -->
+            <div class="bg-workshop-900 border border-workshop-700 p-4 rounded-2xl space-y-4">
+                <div class="flex flex-col md:flex-row gap-3">
+                    <!-- Main Search Input -->
+                    <div class="relative flex-grow">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                        <input type="text" id="searchInput" oninput="applyFilters()" 
+                            placeholder="Szukaj po nazwie PL, angielskiej (np. Ball Joint, Fuel Pump) lub numerze OEM / ACDelco / Moog..." 
+                            class="w-full bg-workshop-950 border border-workshop-600 rounded-xl pl-10 pr-10 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-chevy-orange transition">
+                        <button onclick="clearSearch()" id="clearSearchBtn" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-white">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <!-- Drive Filter Info Pill -->
+                    <div id="driveFilterNotice" class="bg-workshop-800 border border-workshop-600 rounded-xl px-4 py-2.5 flex items-center gap-2.5 text-xs shrink-0">
+                        <i class="fa-solid fa-circle-info text-chevy-orange"></i>
+                        <span>Tryb: <strong id="driveNoticeLabel" class="text-white">4WD (K1500)</strong> — ukryto części tylko dla 2WD</span>
+                    </div>
+                </div>
+
+                <!-- Category Chips -->
+                <div class="flex flex-wrap gap-2 pt-1">
+                    <button onclick="setCategory('ALL')" data-cat="ALL" class="cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-chevy-gold text-workshop-950 transition">
+                        Wszystkie kategorie
+                    </button>
+                    <button onclick="setCategory('Silnik 5.7 V8')" data-cat="Silnik 5.7 V8" class="cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700 transition">
+                        <i class="fa-solid fa-engine mr-1 text-chevy-orange"></i> Silnik 5.7 V8 (TBI)
+                    </button>
+                    <button onclick="setCategory('Zawieszenie i Układ Kierowniczy')" data-cat="Zawieszenie i Układ Kierowniczy" class="cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700 transition">
+                        <i class="fa-solid fa-car-burst mr-1 text-chevy-orange"></i> Zawieszenie & Kierowniczy
+                    </button>
+                    <button onclick="setCategory('Układ Hamulcowy')" data-cat="Układ Hamulcowy" class="cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700 transition">
+                        <i class="fa-solid fa-compact-disc mr-1 text-chevy-orange"></i> Układ Hamulcowy
+                    </button>
+                    <button onclick="setCategory('Układ Napędowy')" data-cat="Układ Napędowy" class="cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700 transition">
+                        <i class="fa-solid fa-gears mr-1 text-chevy-orange"></i> Napęd (4L60E / Most)
+                    </button>
+                    <button onclick="setCategory('Karoseria i Oświetlenie')" data-cat="Karoseria i Oświetlenie" class="cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700 transition">
+                        <i class="fa-solid fa-lightbulb mr-1 text-chevy-orange"></i> Karoseria & Oświetlenie
+                    </button>
+                    <button onclick="setCategory('Elektryka i Czujniki')" data-cat="Elektryka i Czujniki" class="cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700 transition">
+                        <i class="fa-solid fa-bolt mr-1 text-chevy-orange"></i> Elektryka & Czujniki
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Count Bar -->
+            <div class="flex items-center justify-between text-xs text-gray-400 px-1">
+                <span>Wyświetlono podzespołów: <strong id="resultsCounter" class="text-white">0</strong></span>
+                <span>Kliknij <strong class="text-chevy-orange">"Gdzie kupić / Zamienniki"</strong> na karcie, aby otworzyć wyszukiwanie w 11 sklepach</span>
+            </div>
+
+            <!-- Parts Grid -->
+            <div id="partsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Cards injected via JS -->
+            </div>
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- TAB 2: ALL 11 SHOPS DIRECTORY -->
+        <!-- ===================================================================== -->
+        <section id="view-shops" class="hidden space-y-6">
+            <div class="bg-workshop-900 border border-workshop-700 rounded-2xl p-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-workshop-700 pb-4 mb-5">
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Kompletna Baza 11 Sklepów i Hurtowni (PL / USA / EU)</h2>
+                        <p class="text-xs text-gray-400 mt-1">Sprawdzone źródła części dla platformy GMT400 (1994 Chevrolet C/K 1500 5.7 V8)</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="filterShopsDirectory('ALL')" class="shop-dir-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-chevy-orange text-white">Wszystkie (11)</button>
+                        <button onclick="filterShopsDirectory('PL')" class="shop-dir-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700">Polska (5)</button>
+                        <button onclick="filterShopsDirectory('USA')" class="shop-dir-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700">USA Import (4)</button>
+                        <button onclick="filterShopsDirectory('EU')" class="shop-dir-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700">Europa (2)</button>
+                    </div>
+                </div>
+
+                <!-- Pro Tip Banner -->
+                <div class="bg-chevy-gold/10 border border-chevy-gold/30 rounded-xl p-3.5 mb-6 flex items-start gap-3 text-xs">
+                    <i class="fa-solid fa-lightbulb text-chevy-gold text-base mt-0.5"></i>
+                    <div class="text-gray-300 leading-relaxed">
+                        <strong class="text-chevy-gold">Wskazówka zakupowa dla Polski (Brodmir, Fenix, Amerpol):</strong> Dzwoniąc lub pisząc maila z zapytaniem o części do silnika, zawsze podaj <strong>8. znak numeru VIN (litera "K" lub cyfra "7")</strong> oraz informację, że to <strong>5.7L TBI (Throttle Body Injection)</strong> – w 1994 roku nie było jeszcze silnika Vortec (ten wszedł w 1996 r.).
+                    </div>
+                </div>
+
+                <div id="shopsDirectoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <!-- Shops injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- TAB 3: USA IMPORT COST CALCULATOR -->
+        <!-- ===================================================================== -->
+        <section id="view-calculator" class="hidden">
+            <div class="max-w-3xl mx-auto bg-workshop-900 border border-workshop-700 rounded-2xl p-6 shadow-2xl space-y-6">
+                <div class="border-b border-workshop-700 pb-4">
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-plane-arrival text-chevy-orange"></i>
+                        Kalkulator Opłacalności Importu z USA (RockAuto / LMC / Summit / JEGS)
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-1">
+                        Oblicz realny koszt sprowadzenia części z USA do Polski (z uwzględnieniem kursu USD, cła na części samochodowe ~4.5% oraz polskiego podatku VAT 23%).
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1.5">Cena części w USA (USD $)</label>
+                        <input type="number" id="calcPartsUsd" value="85" min="0" step="1" oninput="calculateImport()"
+                            class="w-full bg-workshop-950 border border-workshop-600 rounded-xl px-4 py-2.5 text-white font-mono text-sm focus:border-chevy-orange focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1.5">Koszt wysyłki DHL/FedEx (USD $)</label>
+                        <input type="number" id="calcShippingUsd" value="45" min="0" step="1" oninput="calculateImport()"
+                            class="w-full bg-workshop-950 border border-workshop-600 rounded-xl px-4 py-2.5 text-white font-mono text-sm focus:border-chevy-orange focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1.5">Kurs Dolara (PLN / 1 USD)</label>
+                        <input type="number" id="calcRate" value="4.05" min="1" step="0.01" oninput="calculateImport()"
+                            class="w-full bg-workshop-950 border border-workshop-600 rounded-xl px-4 py-2.5 text-white font-mono text-sm focus:border-chevy-orange focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1.5">Stawka Cła (standardowo 4.5% auto)</label>
+                        <select id="calcDuty" onchange="calculateImport()"
+                            class="w-full bg-workshop-950 border border-workshop-600 rounded-xl px-4 py-2.5 text-white text-sm focus:border-chevy-orange focus:outline-none">
+                            <option value="0.045" selected>4.5% (Standardowe części samochodowe)</option>
+                            <option value="0.03">3.0% (Elementy silnikowe / uszczelki)</option>
+                            <option value="0">0.0% (Wartość poniżej 150 EUR - zwolnione z cła)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Results Summary Box -->
+                <div class="bg-workshop-950 border border-workshop-700 rounded-2xl p-5 space-y-3">
+                    <div class="flex justify-between text-xs text-gray-400">
+                        <span>Wartość zamówienia + wysyłka (USD):</span>
+                        <span id="resTotalUsd" class="font-mono text-white font-semibold">$130.00</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-400">
+                        <span>Wartość netto w PLN:</span>
+                        <span id="resNetPln" class="font-mono text-gray-200">526.50 zł</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-400">
+                        <span>Szacowane Cło:</span>
+                        <span id="resDutyPln" class="font-mono text-chevy-gold">23.69 zł</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-400">
+                        <span>Podatek VAT (23% od całości + cło):</span>
+                        <span id="resVatPln" class="font-mono text-chevy-gold">126.54 zł</span>
+                    </div>
+                    <div class="border-t border-workshop-700 pt-3 flex items-center justify-between">
+                        <span class="text-sm font-bold text-white">Całkowity koszt "na gotowo" w PL:</span>
+                        <span id="resFinalPln" class="text-xl font-extrabold font-mono text-chevy-orange">676.73 zł</span>
+                    </div>
+                </div>
+
+                <div class="text-[11px] text-gray-400 bg-workshop-800/70 p-3 rounded-xl">
+                    <strong>Porada RockAuto:</strong> Przy składaniu zamówienia w RockAuto zaznacz opcję <em>"Pre-Pay Customs & VAT"</em> (opłata z góry). Kurier DHL/FedEx dostarczy paczkę prosto pod drzwi w 3–5 dni roboczych bez dodatkowych opłat za obsługę celną w Polsce.
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================== -->
+        <!-- TAB 4: WORKSHOP CLIPBOARD / SHOPPING LIST -->
+        <!-- ===================================================================== -->
+        <section id="view-clipboard" class="hidden">
+            <div class="bg-workshop-900 border border-workshop-700 rounded-2xl p-6 shadow-2xl space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-workshop-700 pb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-clipboard-check text-chevy-gold"></i>
+                            Schowek Warsztatowy & Generator Zapytania Ofertowego
+                        </h2>
+                        <p class="text-xs text-gray-400 mt-1">
+                            Dodawaj potrzebne części z katalogu, a następnie wygeneruj gotową listę z numerami OEM do wysłania mailem do sklepów (Brodmir, Fenix, Amerpol, Części-USA).
+                        </p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="copyShoppingList()" class="bg-chevy-orange hover:bg-chevy-orangeDark text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow">
+                            <i class="fa-solid fa-copy"></i> Kopiuj zapytanie do schowka
+                        </button>
+                        <button onclick="clearShoppingList()" class="bg-workshop-800 hover:bg-red-900/50 text-gray-300 hover:text-red-300 border border-workshop-600 px-3 py-2 rounded-xl text-xs font-semibold transition">
+                            Wyczyść
+                        </button>
+                    </div>
+                </div>
+
+                <div id="clipboardListContainer" class="space-y-3">
+                    <!-- Dynamic items -->
+                </div>
+
+                <!-- Generated Text Preview -->
+                <div id="exportPreviewWrapper" class="hidden space-y-2 pt-2">
+                    <label class="block text-xs font-bold text-chevy-gold">Podgląd gotowej wiadomości do wysłania do hurtowni:</label>
+                    <textarea id="exportTextarea" readonly rows="8" class="w-full bg-workshop-950 border border-workshop-600 rounded-xl p-3.5 text-xs font-mono text-gray-300 focus:outline-none"></textarea>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- MODAL: PART DETAILS & ALL 11 SHOPS BUY LINKS -->
+    <!-- ========================================================================= -->
+    <div id="partModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+        <div class="bg-workshop-900 border border-workshop-600 rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto">
+            
+            <!-- Modal Header -->
+            <div class="bg-workshop-800 px-5 py-4 border-b border-workshop-700 flex items-start justify-between gap-4 shrink-0">
+                <div>
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                        <span id="modalCategory" class="text-[11px] font-bold bg-chevy-orange/20 text-chevy-orange border border-chevy-orange/30 px-2.5 py-0.5 rounded">Kategoria</span>
+                        <span id="modalDriveBadge" class="text-[11px] font-bold bg-workshop-700 text-gray-200 px-2.5 py-0.5 rounded">2WD / 4WD</span>
+                    </div>
+                    <h3 id="modalTitlePl" class="text-lg sm:text-xl font-extrabold text-white">Nazwa Części</h3>
+                    <p id="modalTitleEn" class="text-xs font-mono text-chevy-gold mt-0.5">English Part Name</p>
+                </div>
+                <button onclick="closeModal()" class="bg-workshop-700 hover:bg-workshop-600 text-gray-300 hover:text-white w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-5 overflow-y-auto space-y-5 custom-scrollbar">
+                
+                <!-- OEM & Cross Reference Numbers + Quick Copy -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-workshop-950 p-4 rounded-xl border border-workshop-700">
+                    <div>
+                        <span class="text-[11px] text-gray-400 block">Numer OEM GM:</span>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <code id="modalOem" class="text-sm font-bold text-white">00000000</code>
+                            <button onclick="copyTextFromModal('oem')" class="text-xs text-chevy-orange hover:underline" title="Kopiuj OEM">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-gray-400 block">ACDelco / Delphi:</span>
+                        <code id="modalAcdelco" class="text-sm font-bold text-chevy-gold block mt-0.5">AC123</code>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-gray-400 block">Zamienniki (Aftermarket):</span>
+                        <span id="modalAftermarket" class="text-xs font-semibold text-gray-200 block mt-0.5">Moog, Fel-Pro</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons Bar -->
+                <div class="flex flex-wrap gap-2.5">
+                    <button id="modalCopyFullBtn" class="bg-chevy-gold hover:bg-chevy-goldHover text-workshop-950 font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 shadow">
+                        <i class="fa-solid fa-copy"></i> Kopiuj numer OEM + nazwę EN (do zapytania)
+                    </button>
+                    <button id="modalAddClipboardBtn" class="bg-workshop-800 hover:bg-workshop-700 border border-workshop-600 text-white font-semibold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus text-chevy-orange"></i> Dodaj do Schowka Warsztatowego
+                    </button>
+                </div>
+
+                <!-- GMT400 Cross-Compatibility Box -->
+                <div class="bg-emerald-950/30 border border-emerald-700/40 rounded-xl p-4 space-y-2">
+                    <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-check-double"></i> Kompatybilność Krzyżowa GMT400 (Rocznik 1994)
+                    </h4>
+                    <div id="modalCompatTags" class="flex flex-wrap gap-1.5"></div>
+                    <p id="modalCompatNote" class="text-xs text-gray-300 leading-relaxed pt-1"></p>
+                </div>
+
+                <!-- Technical / Fitment Warning -->
+                <div class="bg-amber-950/30 border border-amber-700/40 rounded-xl p-3.5 flex items-start gap-2.5 text-xs">
+                    <i class="fa-solid fa-triangle-exclamation text-chevy-orange mt-0.5"></i>
+                    <div>
+                        <strong class="text-chevy-orange">Uwaga montażowa:</strong>
+                        <span id="modalNotes" class="text-gray-300"></span>
+                    </div>
+                </div>
+
+                <!-- ALL 11 SHOPS SEARCH LAUNCHER -->
+                <div class="space-y-3 pt-2 border-t border-workshop-700">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-cart-shopping text-chevy-orange"></i>
+                            Szukaj tej części w 11 sklepach:
+                        </h4>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="filterModalShops('ALL')" class="modal-shop-filter px-2.5 py-1 rounded-lg text-[11px] font-bold bg-chevy-orange text-white">Wszystkie (11)</button>
+                            <button onclick="filterModalShops('PL')" class="modal-shop-filter px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700">Polska (5)</button>
+                            <button onclick="filterModalShops('USA')" class="modal-shop-filter px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700">USA (4)</button>
+                            <button onclick="filterModalShops('EU')" class="modal-shop-filter px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700">Europa (2)</button>
+                        </div>
+                    </div>
+
+                    <div id="modalShopsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                        <!-- 11 Shop search links injected via JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-workshop-900 border-t border-workshop-800 mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+            <div>
+                <strong class="text-gray-300">1994 Chevrolet C/K 1500 Parts & Compatibility Hub</strong> • Platforma GMT400 • Silnik 5.7L V8 (350ci TBI, 200 KM)
+            </div>
+            <div>
+                Baza obejmuje 11 sklepów (PL / USA / EU) oraz matrycę zamienności z GMC Sierra, Suburban, Tahoe i Blazer 1994.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================================================= -->
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <!-- ========================================================================= -->
+    <script>
+        // -------------------------------------------------------------------------
+        // 1. ALL 11 SHOPS CONFIGURATION
+        // -------------------------------------------------------------------------
+        const shopsList = [
+            // POLSKA (5)
+            {
+                id: 'brodmir',
+                name: 'Brodmir (Rzeszów)',
+                domain: 'usaczesci.rzeszow.pl',
+                region: 'PL',
+                flag: '🇵🇱',
+                badge: 'Specjalista USA PL',
+                delivery: '1–2 dni (kurier PL)',
+                desc: 'Jeden z najstarszych polskich sklepów z częściami do aut amerykańskich. Duży magazyn na miejscu dla klasycznych GM/Chevy.',
+                buildUrl: (part) => `https://www.google.com/search?q=site:usaczesci.rzeszow.pl+${encodeURIComponent(part.oem.split('/')[0].trim() + ' ' + part.namePl.split(' ')[0])}`
+            },
+            {
+                id: 'fenix',
+                name: 'Części z USA / Fenix',
+                domain: 'fenix.com.pl',
+                region: 'PL',
+                flag: '🇵🇱',
+                badge: 'Hurtownia Warszawa',
+                delivery: '1–2 dni (lub import 7 dni)',
+                desc: 'Warszawski sklep z ogromnym doświadczeniem w starszych pikapach Chevrolet i GMC. Dobór po numerze VIN.',
+                buildUrl: (part) => `https://www.google.com/search?q=site:fenix.com.pl+${encodeURIComponent(part.oem.split('/')[0].trim() + ' chevrolet')}`
+            },
+            {
+                id: 'amerpol',
+                name: 'Amerpol Części USA',
+                domain: 'amerpolczesci.pl',
+                region: 'PL',
+                flag: '🇵🇱',
+                badge: 'Sklep Warszawa',
+                delivery: '1–2 dni (kurier PL)',
+                desc: 'Szeroki wybór części zawieszenia (Moog), układów hamulcowych, filtrów i uszczelek do serii C/K 1500.',
+                buildUrl: (part) => `https://www.google.com/search?q=site:amerpolczesci.pl+${encodeURIComponent(part.oem.split('/')[0].trim() + ' ' + part.acdelco.split('/')[0].trim())}`
+            },
+            {
+                id: 'czesciusa',
+                name: 'Części-USA.com.pl',
+                domain: 'czesci-usa.com.pl',
+                region: 'PL',
+                flag: '🇵🇱',
+                badge: 'Sklep Online PL',
+                delivery: '1–3 dni',
+                desc: 'Katalog online z podzespołami do Chevrolet Pickup C/K 1500 / Silverado oraz bliźniaczych Suburban i Tahoe.',
+                buildUrl: (part) => `https://www.google.com/search?q=site:czesci-usa.com.pl+${encodeURIComponent(part.oem.split('/')[0].trim() + ' chevrolet')}`
+            },
+            {
+                id: 'jeepchrysler',
+                name: 'JeepChryslerParts',
+                domain: 'jeepchryslerparts.pl',
+                region: 'PL',
+                flag: '🇵🇱',
+                badge: 'Magazyn USA PL',
+                delivery: '1–2 dni',
+                desc: 'Mimo nazwy posiada rozbudowaną sekcję GM / Chevrolet (zawieszenie, krzyżaki, piasty, hamulce, filtry V8).',
+                buildUrl: (part) => `https://www.google.com/search?q=site:jeepchryslerparts.pl+${encodeURIComponent(part.oem.split('/')[0].trim() + ' chevrolet')}`
+            },
+
+            // USA (4)
+            {
+                id: 'rockauto',
+                name: 'RockAuto (USA)',
+                domain: 'rockauto.com',
+                region: 'USA',
+                flag: '🇺🇸',
+                badge: 'Katalog Nr 1 na świecie',
+                delivery: '3–6 dni (DHL/FedEx do PL)',
+                desc: 'Absolutna podstawa dla 1994 Chevy C/K 1500 5.7L V8. Pokazuje dokładne zamienniki ACDelco, Moog, Delphi i opłatę cła/VAT z góry.',
+                buildUrl: (part) => `https://www.rockauto.com/en/partsearch/?partnum=${encodeURIComponent(part.oem.split('/')[0].trim())}`
+            },
+            {
+                id: 'lmctruck',
+                name: 'LMC Truck (USA)',
+                domain: 'lmctruck.com',
+                region: 'USA',
+                flag: '🇺🇸',
+                badge: 'Biblia Pickupów GM',
+                delivery: '5–10 dni (Wysyłka PL)',
+                desc: 'Najważniejszy sklep na świecie do pickupów GM 1988–1998. Każda śrubka, uszczelka drzwi, lusterko, lampa i element wnętrza.',
+                buildUrl: (part) => `https://www.lmctruck.com/search?q=${encodeURIComponent(part.nameEn)}`
+            },
+            {
+                id: 'summit',
+                name: 'Summit Racing (USA)',
+                domain: 'summitracing.com',
+                region: 'USA',
+                flag: '🇺🇸',
+                badge: 'Performance & V8 350',
+                delivery: '4–7 dni (DHL/FedEx)',
+                desc: 'Idealny do wzmocnionych części silnika Small Block Chevy 350 (5.7L), układów wydechowych, zapłonu i chłodzenia.',
+                buildUrl: (part) => `https://www.summitracing.com/search?SortBy=BestKeywordMatch&SortOrder=Ascending&keyword=${encodeURIComponent('1994 chevrolet k1500 5.7 ' + part.nameEn)}`
+            },
+            {
+                id: 'jegs',
+                name: 'JEGS High Performance',
+                domain: 'jegs.com',
+                region: 'USA',
+                flag: '🇺🇸',
+                badge: 'Części V8 & Napęd',
+                delivery: '4–8 dni (Wysyłka PL)',
+                desc: 'Amerykański gigant części do silników V8, skrzyń 4L60E, mostów 10-bolt oraz akcesoriów terenowych 4x4.',
+                buildUrl: (part) => `https://www.jegs.com/webapp/wcs/stores/servlet/SearchResultsPageCmd?q=${encodeURIComponent('1994 chevy 1500 ' + part.nameEn)}`
+            },
+
+            // EUROPA (2)
+            {
+                id: 'signeda',
+                name: 'Signeda (Europa / PL)',
+                domain: 'signeda.pl',
+                region: 'EU',
+                flag: '🇪🇺',
+                badge: 'Karoseria & Lampy',
+                delivery: '2–4 dni (Magazyn EU)',
+                desc: 'Europejska hurtownia blacharki i oświetlenia – błotniki, zderzaki, atrapy chłodnicy, reflektory i kierunkowskazy do GMT400.',
+                buildUrl: (part) => `https://www.signeda.pl/search?q=${encodeURIComponent('chevrolet c/k ' + part.oem.split('/')[0].trim())}`
+            },
+            {
+                id: 'autodoc',
+                name: 'AutoDoc / CzęściAuto24',
+                domain: 'czesciauto24.pl',
+                region: 'EU',
+                flag: '🇪🇺',
+                badge: 'Eksploatacja EU',
+                delivery: '3–5 dni (Magazyn DE)',
+                desc: 'Europejski katalog – przydatny do szybkiego zamówienia filtrów, klocków hamulcowych, pasków czy świec po numerze OEM.',
+                buildUrl: (part) => `https://www.czesciauto24.pl/search?keyword=${encodeURIComponent(part.oem.split('/')[0].trim())}`
+            }
+        ];
+
+        // -------------------------------------------------------------------------
+        // 2. COMPREHENSIVE 26-PART DATABASE FOR 1994 CHEVY C/K 1500 5.7L V8 (GMT400)
+        // -------------------------------------------------------------------------
+        const partsData = [
+            // --- SILNIK 5.7 V8 (TBI) ---
+            {
+                id: 1,
+                category: 'Silnik 5.7 V8',
+                drive: 'BOTH',
+                namePl: 'Pompa paliwa w zbiorniku (TBI Low Pressure)',
+                nameEn: 'In-Tank Electric Fuel Pump (TBI)',
+                oem: '25115841 / 25163468',
+                acdelco: 'EP381 / MU1770',
+                aftermarket: 'Delphi FE0114, Carter P74167, Bosch 69216',
+                compatModels: ['GMC C/K 1500 (1994)', 'Suburban 1500 5.7L (1994)', 'Tahoe / Yukon 5.7L (1994)', 'Blazer Full-Size (1994)'],
+                compatNote: 'Identyczna pompa niskiego ciśnienia (9–13 PSI) dla wszystkich silników 5.7L TBI (VIN K) z rocznika 1994.',
+                notes: 'Nie stosować pompy od silnika Vortec (1996+), ponieważ Vortec wymaga 60 PSI i zaleje wtryskiwacze TBI!'
+            },
+            {
+                id: 2,
+                category: 'Silnik 5.7 V8',
+                drive: 'BOTH',
+                namePl: 'Zestaw naprawczy przepustnicy TBI (Uszczelki + Membrana)',
+                nameEn: 'Throttle Body Injection (TBI) Rebuild Gasket Kit',
+                oem: '17113197 / 17113203',
+                acdelco: '217-433',
+                aftermarket: 'Standard Motor 1707, Fel-Pro 60977',
+                compatModels: ['GMC Sierra 5.7L (1994)', 'Suburban 5.7L (1994)', 'Tahoe / Yukon 5.7L (1994)', 'Blazer 5.7L (1994)'],
+                compatNote: 'W 100% identyczny korpus wtryskowy Rochester 220 we wszystkich modelach GMT400 5.7L z 1994 r.',
+                notes: 'Zawiera membranę regulatora ciśnienia paliwa, oringi wtryskiwaczy oraz uszczelkę podstawy TBI.'
+            },
+            {
+                id: 3,
+                category: 'Silnik 5.7 V8',
+                drive: 'BOTH',
+                namePl: 'Wtryskiwacz paliwa TBI (1 sztuka)',
+                nameEn: 'Fuel Injector (Throttle Body)',
+                oem: '17111864 / 5235206',
+                acdelco: '217-2282',
+                aftermarket: 'Delphi FJ10047, Standard TJ7',
+                compatModels: ['GMC C/K 1500 5.7L (1994)', 'Suburban 1500 5.7L (1994)', 'Tahoe / Yukon 5.7L (1994)'],
+                compatNote: 'Pasuje z każdego GM 5.7L V8 TBI (kod silnika K). W korpusie pracują 2 identyczne wtryskiwacze.',
+                notes: 'Zalecana wymiana parami lub kompletne czyszczenie ultradźwiękowe + nowe oringi.'
+            },
+            {
+                id: 4,
+                category: 'Silnik 5.7 V8',
+                drive: 'BOTH',
+                namePl: 'Uszczelka kolektora ssącego (Zestaw)',
+                nameEn: 'Intake Manifold Gasket Set (5.7L TBI)',
+                oem: '12529094 / 10159409',
+                acdelco: '89017271',
+                aftermarket: 'Fel-Pro MS93317, Victor Reinz MS15403',
+                compatModels: ['GMC C/K 1500 5.7L (1994)', 'Suburban 5.7L (1994)', 'Tahoe 5.7L (1994)', 'Blazer 5.7L (1994)'],
+                compatNote: 'Identyczne głowice żeliwne TBI (casting 14102193) w całej rodzinie GMT400 1988–1995.',
+                notes: 'Wersje z 1994 roku posiadają kanał EGR w kolektorze – upewnij się, że zestaw zawiera blaszkę/uszczelkę EGR.'
+            },
+            {
+                id: 5,
+                category: 'Silnik 5.7 V8',
+                drive: 'BOTH',
+                namePl: 'Pompa wody silnika 5.7L V8 (Obroty lewe - Reverse Rotation)',
+                nameEn: 'Engine Water Pump (Reverse Rotation - Serpentine)',
+                oem: '12521036 / 88894005',
+                acdelco: '252-719',
+                aftermarket: 'Gates 43114, GMB 130-1620, Airtex AW5049',
+                compatModels: ['GMC Sierra 5.7L (1994)', 'Suburban 1500 5.7L (1994)', 'Tahoe / Yukon 5.7L (1994)'],
+                compatNote: 'Wszystkie GMT400 z jednym paskiem wielorowkowym (serpentine belt) używają pompy o odwrotnym kierunku obrotów.',
+                notes: 'Nie mylić z pompami od starszych silników na paski klinowe (standard rotation)!'
+            },
+            {
+                id: 6,
+                category: 'Silnik 5.7 V8',
+                drive: 'BOTH',
+                namePl: 'Termostat układu chłodzenia 195°F (91°C)',
+                nameEn: 'Engine Coolant Thermostat (195 Deg F)',
+                oem: '12555283 / 10220957',
+                acdelco: '131-100',
+                aftermarket: 'Stant 13359, Gates 33009, Motorad 200-195',
+                compatModels: ['Wszystkie GMT400 5.7L / 5.0L V8 (1988–1995)', 'GMC 1500', 'Suburban', 'Tahoe'],
+                compatNote: 'Uniwersalny dla wszystkich silników Small Block Chevy z komputerem ECM.',
+                notes: 'Komputer ECM w 1994 r. wymaga temperatury 195°F (91°C) do przejścia w tryb Closed Loop (optymalne spalanie).'
+            },
+            {
+                id: 7,
+                category: 'Silnik 5.7 V8',
+                drive: 'BOTH',
+                namePl: 'Filtr oleju silnikowego (Small Block 350)',
+                nameEn: 'Engine Oil Filter (Spin-On)',
+                oem: '25161739 / 25010792',
+                acdelco: 'PF454 / PF52 (wydłużony)',
+                aftermarket: 'Wix 51069 (krótki) / Wix 51036 (długi), Mann W920/6',
+                compatModels: ['GMC C/K 1500 (1994)', 'Suburban 1500 (1994)', 'Tahoe / Yukon (1994)', 'Blazer (1994)'],
+                compatNote: 'Gwint 13/16"-16 UNF – identyczny we wszystkich V8 5.7L.',
+                notes: 'W wersji 4WD (K1500) z powodu przedniego wału/mostu często wygodniej montuje się krótszy filtr PF454.'
+            },
+            {
+                id: 8,
+                category: 'Silnik 5.7 V8',
+                drive: 'BOTH',
+                namePl: 'Kopułka i palec rozdzielacza zapłonu (Miedziane styki)',
+                nameEn: 'Distributor Cap and Rotor Kit (Brass Terminals)',
+                oem: '10452458 / 10452457',
+                acdelco: 'D328A + D465',
+                aftermarket: 'Standard Motor DR474 + DR331, Delphi DC20010',
+                compatModels: ['GMC Sierra 5.7L (1994)', 'Suburban 5.7L (1994)', 'Tahoe / Yukon 5.7L (1994)'],
+                compatNote: 'Identyczny aparat zapłonowy HEI z zewnętrzną cewką dla wszystkich 5.7L TBI.',
+                notes: 'Wybieraj wyłącznie wersje z miedzianymi/mosiężnymi stykami (Brass Terminals) zamiast aluminiowych.'
+            },
+
+            // --- ZAWIESZENIE I UKŁAD KIEROWNICZY ---
+            {
+                id: 9,
+                category: 'Zawieszenie i Układ Kierowniczy',
+                drive: '4WD',
+                namePl: 'Sworzeń wahacza dolnego PRZÓD (Tylko 4WD K1500)',
+                nameEn: 'Front Lower Ball Joint (4WD K1500)',
+                oem: '12354315 / 15617715',
+                acdelco: '45D2209',
+                aftermarket: 'Moog K6477, Mevotech MK6477, Delphi TC1573',
+                compatModels: ['GMC K1500 4x4 (1994)', 'Suburban K1500 4x4 (1994)', 'Tahoe / Yukon 4x4 (1994)', 'Blazer 4x4 (1994)'],
+                compatNote: 'Identyczne zawieszenie na drążkach skrętnych we wszystkich modelach 4x4 z 6 śrubami koła.',
+                notes: 'Część TYLKO dla wersji 4x4 (K1500). Wersja 2WD (C1500) ma zupełnie inny sworzeń wciskany w wahacz.'
+            },
+            {
+                id: 10,
+                category: 'Zawieszenie i Układ Kierowniczy',
+                drive: '2WD',
+                namePl: 'Sworzeń wahacza dolnego PRZÓD (Tylko 2WD C1500)',
+                nameEn: 'Front Lower Ball Joint (2WD C1500)',
+                oem: '15575901 / 12354313',
+                acdelco: '45D2075',
+                aftermarket: 'Moog K6292, Delphi TC1566',
+                compatModels: ['GMC C1500 2WD (1994)', 'Suburban C1500 2WD (1994)'],
+                compatNote: 'Pasuje do wszystkich wersji tylnonapędowych (5 śrub koła) ze sprężynami śrubowymi z przodu.',
+                notes: 'Część TYLKO dla wersji 2WD (C1500). Nie pasuje do modeli 4x4!'
+            },
+            {
+                id: 11,
+                category: 'Zawieszenie i Układ Kierowniczy',
+                drive: 'BOTH',
+                namePl: 'Sworzeń wahacza górnego PRZÓD (Przykręcany na 4 śruby)',
+                nameEn: 'Front Upper Ball Joint (Bolt-On)',
+                oem: '12354311 / 15575902',
+                acdelco: '45D0105',
+                aftermarket: 'Moog K6293 (2WD) / Moog K6291 (4WD)',
+                compatModels: ['GMC C/K 1500 (1994)', 'Suburban 1500 (1994)', 'Tahoe / Yukon (1994)', 'Blazer (1994)'],
+                compatNote: 'Wszystkie GMT400 posiadają górny sworzeń przykręcany na 4 śruby do wahacza.',
+                notes: 'Przy zamawianiu w USA sprawdź rozstaw otworów: K6291 (4WD) vs K6293 (2WD).'
+            },
+            {
+                id: 12,
+                category: 'Zawieszenie i Układ Kierowniczy',
+                drive: 'BOTH',
+                namePl: 'Wspornik układu kierowniczego (Idler Arm)',
+                nameEn: 'Steering Idler Arm',
+                oem: '26034092 / 26059030',
+                acdelco: '45C1082',
+                aftermarket: 'Moog K6447, Mevotech MK6447, Delphi TA5016',
+                compatModels: ['GMC C/K 1500 (1994)', 'Suburban 1500 (1994)', 'Tahoe / Yukon (1994)', 'Blazer (1994)'],
+                compatNote: 'Wspólny element dla wszystkich modeli GMT400 (zarówno 2WD jak i 4WD) w roczniku 1994!',
+                notes: 'Jeden z najszybciej zużywających się elementów w GMT400 – odpowiada za luzy na kierownicy.'
+            },
+            {
+                id: 13,
+                category: 'Zawieszenie i Układ Kierowniczy',
+                drive: 'BOTH',
+                namePl: 'Wąs przekładni kierowniczej (Pitman Arm)',
+                nameEn: 'Steering Pitman Arm',
+                oem: '26032996 / 26051896',
+                acdelco: '45C0062',
+                aftermarket: 'Moog K6335, Raybestos 445-1062',
+                compatModels: ['GMC C/K 1500 (1994)', 'Suburban 1500 (1994)', 'Tahoe / Yukon (1994)', 'Blazer (1994)'],
+                compatNote: 'Identyczny wieloklin przekładni Saginaw 800 we wszystkich 1994 C/K 1500.',
+                notes: 'Do demontażu niezbędny jest solidny ściągacz do wąsów kierowniczych (Pitman Arm Puller).'
+            },
+            {
+                id: 14,
+                category: 'Zawieszenie i Układ Kierowniczy',
+                drive: '4WD',
+                namePl: 'Piasta koła przedniego z łożyskiem (4WD K1500 - 6 śrub)',
+                nameEn: 'Front Wheel Bearing and Hub Assembly (4WD 6-Lug)',
+                oem: '12413039 / 15997071',
+                acdelco: 'FW193 / 515001',
+                aftermarket: 'Timken 515001, SKF BR930068, Moog 515001',
+                compatModels: ['GMC K1500 4x4 (1994)', 'Suburban K1500 4x4 (1994)', 'Tahoe / Yukon 4x4 (1994)', 'Blazer 4x4 (1994)'],
+                compatNote: '100% identyczna piasta na 6 szpilek we wszystkich modelach 4x4 z 1994 r.',
+                notes: 'Część TYLKO dla 4WD (K1500). Wersja 2WD ma klasyczne łożyska stożkowe w tarczy hamulcowej.'
+            },
+
+            // --- UKŁAD HAMULCOWY ---
+            {
+                id: 15,
+                category: 'Układ Hamulcowy',
+                drive: 'BOTH',
+                namePl: 'Klocki hamulcowe PRZÓD (Komplet na oś)',
+                nameEn: 'Front Disc Brake Pad Set',
+                oem: '18029581 / 12510035',
+                acdelco: '17D478M / 14D478M',
+                aftermarket: 'Wagner MX478, Raybestos PGD478M, Bosch BP478',
+                compatModels: ['GMC C/K 1500 (1994)', 'Suburban 1500 (1994)', 'Tahoe / Yukon (1994)', 'Blazer (1994)'],
+                compatNote: 'Wszystkie modele C/K 1500 z rocznika 1994 używają zacisków na klocki typu D478.',
+                notes: 'Zalecane klocki półmetaliczne (Semi-Metallic) ze względu na dużą masę pickupa i przyczep.'
+            },
+            {
+                id: 16,
+                category: 'Układ Hamulcowy',
+                drive: '4WD',
+                namePl: 'Tarcza hamulcowa PRZÓD (4WD K1500 - nakładana na piastę)',
+                nameEn: 'Front Brake Rotor (4WD K1500 - 6-Lug)',
+                oem: '15655731 / 15679701',
+                acdelco: '18A783',
+                aftermarket: 'Raybestos 56241R, Centric 121.66016, Wagner BD125115',
+                compatModels: ['GMC K1500 4x4 (1994)', 'Suburban K1500 4x4 (1994)', 'Tahoe / Yukon 4x4 (1994)', 'Blazer 4x4 (1994)'],
+                compatNote: 'Wspólna tarcza wentylowana (średnica 295 mm, 6 otworów) dla całej serii 4x4.',
+                notes: 'W 1994 K1500 tarcza schodzi z piasty po zdjęciu zacisku (nie trzeba odkręcać łożyska).'
+            },
+            {
+                id: 17,
+                category: 'Układ Hamulcowy',
+                drive: 'BOTH',
+                namePl: 'Szczęki hamulcowe TYŁ (Bębny 10" x 2.25" lub 11")',
+                nameEn: 'Rear Drum Brake Shoe Set',
+                oem: '18029596 / 12321456',
+                acdelco: '17514B (10") / 17665B (11")',
+                aftermarket: 'Wagner PAB514, Raybestos 514PG',
+                compatModels: ['GMC C/K 1500 (1994)', 'Suburban 1500 (1994)', 'Tahoe / Yukon (1994)'],
+                compatNote: 'Bębny tylne są współdzielone między pickupem a SUV-ami GMT400.',
+                notes: 'Przed zakupem zmierz średnicę wewnętrzną bębna: standardowe C/K 1500 mają 10 cali, wersje Heavy Duty / Suburban mają 11 cali.'
+            },
+            {
+                id: 18,
+                category: 'Układ Hamulcowy',
+                drive: 'BOTH',
+                namePl: 'Przewód hamulcowy elastyczny PRZÓD (Lewy / Prawy)',
+                nameEn: 'Front Hydraulic Brake Hose',
+                oem: '15636855 / 15636856',
+                acdelco: '18J837 (L) / 18J838 (P)',
+                aftermarket: 'Raybestos BH38874, Dorman H38874',
+                compatModels: ['GMC C/K 1500 (1994)', 'Suburban 1500 (1994)', 'Tahoe / Yukon (1994)'],
+                compatNote: 'Identyczne mocowania przy ramie i zacisku dla całej rodziny GMT400.',
+                notes: 'W zestawie powinny znajdować się dwie miedziane podkładki pod śrubę drążoną (banjo bolt).'
+            },
+
+            // --- UKŁAD NAPĘDOWY (4L60E / MOST) ---
+            {
+                id: 19,
+                category: 'Układ Napędowy',
+                drive: 'BOTH',
+                namePl: 'Filtr + Uszczelka miski skrzyni automatycznej 4L60E',
+                nameEn: 'Automatic Transmission Filter & Pan Gasket Kit (4L60E)',
+                oem: '8685185 / 24200796',
+                acdelco: 'TF289',
+                aftermarket: 'Wix 58847, Fel-Pro TOS18706, Fram FT1146A',
+                compatModels: ['GMC C/K 1500 (1994)', 'Suburban 1500 (1994)', 'Tahoe / Yukon (1994)', 'Blazer (1994)'],
+                compatNote: 'Wszystkie automaty w 1994 C/K 1500 to elektroniczna skrzynia 4L60E (16 śrub miski).',
+                notes: 'W 1994 roku stosowano płytką miskę olejową (shallow pan) – filtr TF289 pasuje idealnie.'
+            },
+            {
+                id: 20,
+                category: 'Układ Napędowy',
+                drive: '4WD',
+                namePl: 'Siłownik załączania przedniego mostu 4x4 (Thermal Actuator)',
+                nameEn: '4WD Front Axle Shift Actuator',
+                oem: '26013495 / 26060073',
+                acdelco: '15609166 / 600-101',
+                aftermarket: 'Dorman 600-101, Standard TCA1T',
+                compatModels: ['GMC K1500 4x4 (1994)', 'Suburban K1500 4x4 (1994)', 'Tahoe / Yukon 4x4 (1994)', 'Blazer 4x4 (1994)'],
+                compatNote: 'Wspólny element dla wszystkich GMT400 4x4 z dzielonym przednim mostem IFS (8.25").',
+                notes: 'Fabryczny siłownik termiczny wolno załącza napęd na mrozie – Dorman oferuje też zestaw konwersyjny na szybki siłownik elektryczny.'
+            },
+            {
+                id: 21,
+                category: 'Układ Napędowy',
+                drive: 'BOTH',
+                namePl: 'Krzyżak wału napędowego (U-Joint 1310 / 3R)',
+                nameEn: 'Driveshaft Universal Joint (U-Joint)',
+                oem: '12479126 / 89029306',
+                acdelco: '45U0107',
+                aftermarket: 'Moog 354 / Moog 231, Spicer 5-3147X',
+                compatModels: ['GMC C/K 1500 (1994)', 'Suburban 1500 (1994)', 'Tahoe / Yukon (1994)'],
+                compatNote: 'Standardowe wały stalowe/aluminiowe GM 1500 wykorzystują krzyżaki serii Saginaw 3R lub 1350.',
+                notes: 'Sprawdź czy zabezpieczenia (pierścienie Segera) są od wewnątrz widełek (Saginaw 3R) czy na zewnątrz (Spicer).'
+            },
+
+            // --- KAROSERIA I OŚWIETLENIE ---
+            {
+                id: 22,
+                category: 'Karoseria i Oświetlenie',
+                drive: 'BOTH',
+                namePl: 'Reflektor przedni zespolony (Composite Headlamp - Chevy 94-98)',
+                nameEn: 'Composite Headlight Assembly (Left / Right)',
+                oem: '15034929 (L) / 15034930 (P)',
+                acdelco: 'GM2502101 / GM2503101',
+                aftermarket: 'TYC 20-1692-00, Depo 335-1105L-AS, Signeda ZCH1101L',
+                compatModels: ['Chevy Suburban 1500 (1994–1999)', 'Chevy Tahoe (1995–1999)', 'Chevy Blazer Full-Size (1994)'],
+                compatNote: 'Ważne: Rok 1994 to pierwszy rok nowego przodu (grill z poziomą belką)! Pasuje z Chevy Suburban/Tahoe, NIE pasuje z GMC Sierra (inny kształt lamp).',
+                notes: 'W 1994 r. zmieniono atrapę chłodnicy i kierunkowskazy względem roczników 1988–1993.'
+            },
+            {
+                id: 23,
+                category: 'Karoseria i Oświetlenie',
+                drive: 'BOTH',
+                namePl: 'Lampa tylna zespolona (Tail Light - Pickup C/K)',
+                nameEn: 'Tail Light Assembly (Fleetside Pickup)',
+                oem: '5977867 (L) / 5977868 (P)',
+                acdelco: 'GM2800104 / GM2801104',
+                aftermarket: 'TYC 11-1892-01, Depo 335-1903L-US, Signeda ZCH1901L',
+                compatModels: ['GMC C/K 1500 Sierra Fleetside (1988–1998)', 'Chevy/GMC C/K 2500/3500 Fleetside'],
+                compatNote: 'Identyczne tylne lampy w pickupach Chevrolet i GMC (wersja skrzyniowa Fleetside). Nie pasują z Suburban/Tahoe!',
+                notes: 'Upewnij się czy masz standardową skrzynię (Fleetside) czy poszerzaną (Sportside/Stepside).'
+            },
+
+            // --- ELEKTRYKA I CZUJNIKI ---
+            {
+                id: 24,
+                category: 'Elektryka i Czujniki',
+                drive: 'BOTH',
+                namePl: 'Czujnik temperatury płynu chłodzącego dla komputera ECM (2-pin)',
+                nameEn: 'Engine Coolant Temperature (ECT) Sensor',
+                oem: '25036979 / 15326386',
+                acdelco: '213-928',
+                aftermarket: 'Delphi TS10075, Standard Motor TX3',
+                compatModels: ['GMC C/K 1500 5.7L (1994)', 'Suburban 5.7L (1994)', 'Tahoe / Yukon 5.7L (1994)', 'Blazer 5.7L (1994)'],
+                compatNote: 'Identyczny czujnik 2-pinowy wkręcany obok termostatu we wszystkich 5.7L TBI.',
+                notes: 'W silniku są DWA czujniki: ten 2-pinowy przy termostacie daje sygnał do komputera ECM (odpowiada za ssanie i spalanie), a 1-pinowy w głowicy obsługuje wskazówkę na desce.'
+            },
+            {
+                id: 25,
+                category: 'Elektryka i Czujniki',
+                drive: 'BOTH',
+                namePl: 'Zawór silniczka krokowego biegu jałowego (IAC Valve)',
+                nameEn: 'Idle Air Control (IAC) Valve',
+                oem: '17111288 / 25527077',
+                acdelco: '217-437',
+                aftermarket: 'Delphi CV10033, Standard Motor AC1',
+                compatModels: ['GMC Sierra 5.7L (1994)', 'Suburban 5.7L (1994)', 'Tahoe / Yukon 5.7L (1994)', 'Blazer 5.7L (1994)'],
+                compatNote: 'Identyczny zawór krokowy w przepustnicy TBI dla całej gamy GMT400 5.7L.',
+                notes: 'Odpowiada za stabilne obroty biegu jałowego (ok. 600–650 RPM) oraz podbijanie obrotów po włączeniu klimatyzacji lub wrzuceniu biegu D.'
+            },
+            {
+                id: 26,
+                category: 'Elektryka i Czujniki',
+                drive: 'BOTH',
+                namePl: 'Moduł zapłonowy w rozdzielaczu (Ignition Control Module - ICM)',
+                nameEn: 'Ignition Control Module (8-Pin)',
+                oem: '10482827 / 16139369',
+                acdelco: 'D1943A',
+                aftermarket: 'Delphi DS1004, Standard Motor LX340',
+                compatModels: ['GMC C/K 1500 5.7L (1994)', 'Suburban 5.7L (1994)', 'Tahoe / Yukon 5.7L (1994)', 'Blazer 5.7L (1994)'],
+                compatNote: 'Wspólny moduł 8-pinowy dla wszystkich silników V8 TBI z rozdzielaczem elektronicznym.',
+                notes: 'Przy montażu bezwzględnie posmaruj spód modułu pastą termoprzewodzącą (nie silikonem!), aby zapobiec jego przegrzaniu.'
+            }
+        ];
+
+        // -------------------------------------------------------------------------
+        // 3. APPLICATION STATE
+        // -------------------------------------------------------------------------
+        let state = {
+            driveType: '4WD', // '4WD' (K1500) or '2WD' (C1500)
+            category: 'ALL',
+            searchQuery: '',
+            modalShopRegion: 'ALL',
+            currentModalPartId: null,
+            clipboard: JSON.parse(localStorage.getItem('chevy94_clipboard') || '[]')
+        };
+
+        // -------------------------------------------------------------------------
+        // 4. INITIALIZATION
+        // -------------------------------------------------------------------------
+        window.onload = function() {
+            applyFilters();
+            renderShopsDirectory('ALL');
+            updateClipboardUI();
+            calculateImport();
+        };
+
+        // -------------------------------------------------------------------------
+        // 5. DRIVE SWITCHER (2WD C1500 vs 4WD K1500)
+        // -------------------------------------------------------------------------
+        function setDriveType(type) {
+            state.driveType = type;
+
+            const btn4 = document.getElementById('btn-4wd');
+            const btn2 = document.getElementById('btn-2wd');
+            const headerModel = document.getElementById('headerDriveModel');
+            const noticeLabel = document.getElementById('driveNoticeLabel');
+            const noticeContainer = document.getElementById('driveFilterNotice');
+
+            if (type === '4WD') {
+                btn4.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-chevy-orange text-white shadow';
+                btn2.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white';
+                headerModel.textContent = 'K1500';
+                noticeLabel.textContent = '4WD (K1500)';
+                noticeContainer.innerHTML = `<i class="fa-solid fa-circle-info text-chevy-orange"></i><span>Tryb: <strong class="text-white">4WD (K1500)</strong> — ukryto części tylko dla 2WD</span>`;
+            } else {
+                btn2.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-chevy-gold text-workshop-950 shadow';
+                btn4.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white';
+                headerModel.textContent = 'C1500';
+                noticeLabel.textContent = '2WD (C1500)';
+                noticeContainer.innerHTML = `<i class="fa-solid fa-circle-info text-chevy-gold"></i><span>Tryb: <strong class="text-white">2WD (C1500)</strong> — ukryto części tylko dla 4WD</span>`;
+            }
+
+            applyFilters();
+            showToast(`Przełączono kontekst pojazdu na: 1994 Chevy ${type === '4WD' ? 'K1500 (4x4)' : 'C1500 (2WD)'}`);
+        }
+
+        // -------------------------------------------------------------------------
+        // 6. CATALOG FILTERING & RENDERING
+        // -------------------------------------------------------------------------
+        function setCategory(cat) {
+            state.category = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.className = 'cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-chevy-gold text-workshop-950 transition shadow';
+                } else {
+                    btn.className = 'cat-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700 transition';
+                }
+            });
+            applyFilters();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const rawQuery = document.getElementById('searchInput').value.trim();
+            state.searchQuery = rawQuery.toLowerCase();
+
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (rawQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            const filtered = partsData.filter(part => {
+                // 1. Drive filter
+                if (part.drive !== 'BOTH' && part.drive !== state.driveType) {
+                    return false;
+                }
+                // 2. Category filter
+                if (state.category !== 'ALL' && part.category !== state.category) {
+                    return false;
+                }
+                // 3. Search query (PL, EN, OEM, ACDelco, Aftermarket)
+                if (state.searchQuery) {
+                    const haystack = `${part.namePl} ${part.nameEn} ${part.oem} ${part.acdelco} ${part.aftermarket} ${part.category}`.toLowerCase();
+                    return haystack.includes(state.searchQuery);
+                }
+                return true;
+            });
+
+            renderPartsGrid(filtered);
+        }
+
+        function renderPartsGrid(list) {
+            const container = document.getElementById('partsContainer');
+            const counter = document.getElementById('resultsCounter');
+            counter.textContent = list.length;
+            container.innerHTML = '';
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full bg-workshop-900 border border-workshop-700 rounded-2xl p-10 text-center space-y-3">
+                        <i class="fa-solid fa-wrench text-3xl text-gray-500"></i>
+                        <h3 class="text-base font-bold text-white">Nie znaleziono części dla podanych filtrów</h3>
+                        <p class="text-xs text-gray-400">Spróbuj wpisać inną frazę (np. po angielsku), przełączyć napęd 2WD/4WD lub wyczyścić filtr kategorii.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.forEach(part => {
+                const isInClipboard = state.clipboard.some(item => item.id === part.id);
+                const driveBadge = part.drive === 'BOTH'
+                    ? `<span class="text-[10px] font-bold bg-workshop-700 text-gray-300 px-2 py-0.5 rounded">2WD / 4WD</span>`
+                    : part.drive === '4WD'
+                        ? `<span class="text-[10px] font-bold bg-chevy-orange/20 text-chevy-orange border border-chevy-orange/30 px-2 py-0.5 rounded">TYLKO 4WD (K1500)</span>`
+                        : `<span class="text-[10px] font-bold bg-chevy-gold/20 text-chevy-gold border border-chevy-gold/30 px-2 py-0.5 rounded">TYLKO 2WD (C1500)</span>`;
+
+                const card = document.createElement('div');
+                card.className = 'bg-workshop-900 border border-workshop-700 hover:border-chevy-orange/60 rounded-2xl p-5 flex flex-col justify-between shadow-lg transition-all group';
+                card.innerHTML = `
+                    <div class="space-y-3">
+                        <!-- Top Badges -->
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-[11px] font-semibold text-chevy-gold">${part.category}</span>
+                            ${driveBadge}
+                        </div>
+
+                        <!-- Titles -->
+                        <div>
+                            <h3 class="text-base font-bold text-white group-hover:text-chevy-orange transition leading-snug">${part.namePl}</h3>
+                            <p class="text-xs font-mono text-gray-400 mt-0.5">${part.nameEn}</p>
+                        </div>
+
+                        <!-- OEM & ACDelco Box -->
+                        <div class="bg-workshop-950 border border-workshop-800 rounded-xl p-3 space-y-1.5 text-xs">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">OEM GM:</span>
+                                <div class="flex items-center gap-1.5">
+                                    <code class="text-white font-bold">${part.oem}</code>
+                                    <button onclick="quickCopy('${part.oem.split('/')[0].trim()}', 'Skopiowano numer OEM')" class="text-gray-400 hover:text-chevy-orange" title="Kopiuj OEM">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">ACDelco:</span>
+                                <code class="text-chevy-gold font-semibold">${part.acdelco}</code>
+                            </div>
+                        </div>
+
+                        <!-- GMT400 Compatibility Mini Tags -->
+                        <div class="space-y-1">
+                            <span class="text-[10px] uppercase tracking-wider text-emerald-400 font-bold block">
+                                <i class="fa-solid fa-check-circle mr-1"></i>Pasuje też z 1994:
+                            </span>
+                            <div class="flex flex-wrap gap-1">
+                                ${part.compatModels.slice(0, 3).map(m => `<span class="text-[10px] bg-emerald-950/50 text-emerald-300 border border-emerald-800/50 px-2 py-0.5 rounded">${m}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Actions -->
+                    <div class="pt-4 mt-4 border-t border-workshop-800 flex items-center gap-2">
+                        <button onclick="openPartModal(${part.id})" class="flex-grow bg-chevy-orange hover:bg-chevy-orangeDark text-white font-bold py-2.5 px-3 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow">
+                            <i class="fa-solid fa-store"></i> Gdzie kupić (11 sklepów)
+                        </button>
+                        <button onclick="toggleClipboardItem(${part.id})" class="p-2.5 rounded-xl border transition ${isInClipboard ? 'bg-chevy-gold text-workshop-950 border-chevy-gold' : 'bg-workshop-800 hover:bg-workshop-700 text-gray-300 border-workshop-600'}" title="${isInClipboard ? 'Usuń ze schowka' : 'Dodaj do schowka warsztatowego'}">
+                            <i class="fa-solid ${isInClipboard ? 'fa-check' : 'fa-clipboard-list'}"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // -------------------------------------------------------------------------
+        // 7. PART MODAL & 11 SHOPS SEARCH LINKS
+        // -------------------------------------------------------------------------
+        function openPartModal(partId) {
+            const part = partsData.find(p => p.id === partId);
+            if (!part) return;
+
+            state.currentModalPartId = partId;
+            state.modalShopRegion = 'ALL';
+
+            document.getElementById('modalCategory').textContent = part.category;
+            document.getElementById('modalDriveBadge').textContent = part.drive === 'BOTH' ? 'Pasuje do 2WD (C1500) i 4WD (K1500)' : `Tylko wersja ${part.drive}`;
+            document.getElementById('modalTitlePl').textContent = part.namePl;
+            document.getElementById('modalTitleEn').textContent = part.nameEn;
+            document.getElementById('modalOem').textContent = part.oem;
+            document.getElementById('modalAcdelco').textContent = part.acdelco;
+            document.getElementById('modalAftermarket').textContent = part.aftermarket;
+            document.getElementById('modalCompatNote').textContent = part.compatNote;
+            document.getElementById('modalNotes').textContent = part.notes;
+
+            const compatTagsDiv = document.getElementById('modalCompatTags');
+            compatTagsDiv.innerHTML = part.compatModels.map(m =>
+                `<span class="text-xs bg-emerald-900/50 text-emerald-200 border border-emerald-600/40 px-2.5 py-1 rounded-lg font-medium">${m}</span>`
+            ).join('');
+
+            // Wire copy full button
+            const copyFullBtn = document.getElementById('modalCopyFullBtn');
+            copyFullBtn.onclick = () => {
+                const text = `1994 Chevrolet ${state.driveType === '4WD' ? 'K1500' : 'C1500'} 5.7L V8 (VIN K) | ${part.namePl} (${part.nameEn}) | OEM: ${part.oem} | ACDelco: ${part.acdelco}`;
+                copyToClipboard(text, 'Skopiowano pełny opis z numerami OEM do zapytania!');
+            };
+
+            // Wire add to clipboard button
+            const addClipBtn = document.getElementById('modalAddClipboardBtn');
+            const updateModalClipBtn = () => {
+                const exists = state.clipboard.some(i => i.id === part.id);
+                addClipBtn.innerHTML = exists
+                    ? `<i class="fa-solid fa-check text-emerald-400"></i> Zapisano w Schowku Warsztatowym`
+                    : `<i class="fa-solid fa-plus text-chevy-orange"></i> Dodaj do Schowka Warsztatowego`;
+            };
+            updateModalClipBtn();
+            addClipBtn.onclick = () => {
+                toggleClipboardItem(part.id);
+                updateModalClipBtn();
+            };
+
+            // Reset filter pills & render all 11 shops
+            filterModalShops('ALL');
+
+            document.getElementById('partModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('partModal').classList.add('hidden');
+            state.currentModalPartId = null;
+        }
+
+        function copyTextFromModal(field) {
+            const part = partsData.find(p => p.id === state.currentModalPartId);
+            if (!part) return;
+            if (field === 'oem') {
+                copyToClipboard(part.oem.split('/')[0].trim(), 'Skopiowano numer OEM GM');
+            }
+        }
+
+        function filterModalShops(region) {
+            state.modalShopRegion = region;
+            const part = partsData.find(p => p.id === state.currentModalPartId);
+            if (!part) return;
+
+            document.querySelectorAll('.modal-shop-filter').forEach(btn => {
+                const isMatch = (region === 'ALL' && btn.textContent.includes('Wszystkie')) ||
+                                (region === 'PL' && btn.textContent.includes('Polska')) ||
+                                (region === 'USA' && btn.textContent.includes('USA')) ||
+                                (region === 'EU' && btn.textContent.includes('Europa'));
+                btn.className = isMatch
+                    ? 'modal-shop-filter px-2.5 py-1 rounded-lg text-[11px] font-bold bg-chevy-orange text-white'
+                    : 'modal-shop-filter px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700';
+            });
+
+            const filteredShops = region === 'ALL' ? shopsList : shopsList.filter(s => s.region === region);
+            const grid = document.getElementById('modalShopsGrid');
+            grid.innerHTML = '';
+
+            filteredShops.forEach(shop => {
+                const url = shop.buildUrl(part);
+                const regionColor = shop.region === 'PL' ? 'text-red-400 bg-red-950/40 border-red-800/40' :
+                                    shop.region === 'USA' ? 'text-blue-400 bg-blue-950/40 border-blue-800/40' :
+                                    'text-amber-400 bg-amber-950/40 border-amber-800/40';
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.className = 'bg-workshop-950 hover:bg-workshop-800 border border-workshop-700 hover:border-chevy-orange p-3 rounded-xl flex items-center justify-between gap-2 transition group';
+                link.innerHTML = `
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-sm">${shop.flag}</span>
+                            <span class="text-xs font-bold text-white group-hover:text-chevy-orange truncate">${shop.name}</span>
+                        </div>
+                        <div class="text-[10px] text-gray-400 truncate mt-0.5">${shop.domain} • ${shop.delivery}</div>
+                    </div>
+                    <span class="text-[10px] font-bold px-2 py-1 rounded border ${regionColor} shrink-0 flex items-center gap-1">
+                        Szukaj <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                    </span>
+                `;
+                grid.appendChild(link);
+            });
+        }
+
+        // -------------------------------------------------------------------------
+        // 8. TAB 2: ALL 11 SHOPS DIRECTORY
+        // -------------------------------------------------------------------------
+        function filterShopsDirectory(region) {
+            document.querySelectorAll('.shop-dir-btn').forEach(btn => {
+                const isMatch = (region === 'ALL' && btn.textContent.includes('Wszystkie')) ||
+                                (region === 'PL' && btn.textContent.includes('Polska')) ||
+                                (region === 'USA' && btn.textContent.includes('USA')) ||
+                                (region === 'EU' && btn.textContent.includes('Europa'));
+                btn.className = isMatch
+                    ? 'shop-dir-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-chevy-orange text-white'
+                    : 'shop-dir-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-workshop-800 text-gray-300 hover:bg-workshop-700';
+            });
+            renderShopsDirectory(region);
+        }
+
+        function renderShopsDirectory(region) {
+            const list = region === 'ALL' ? shopsList : shopsList.filter(s => s.region === region);
+            const grid = document.getElementById('shopsDirectoryGrid');
+            grid.innerHTML = '';
+
+            list.forEach(shop => {
+                const card = document.createElement('div');
+                card.className = 'bg-workshop-950 border border-workshop-700 rounded-2xl p-5 flex flex-col justify-between space-y-4';
+                card.innerHTML = `
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-workshop-800 text-chevy-gold border border-workshop-600">
+                                ${shop.flag} ${shop.badge}
+                            </span>
+                            <span class="text-[11px] text-gray-400"><i class="fa-regular fa-clock mr-1"></i>${shop.delivery}</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">${shop.name}</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed">${shop.desc}</p>
+                    </div>
+                    <div class="pt-3 border-t border-workshop-800 flex items-center justify-between">
+                        <span class="text-xs font-mono text-gray-500">${shop.domain}</span>
+                        <a href="https://${shop.domain}" target="_blank" rel="noopener noreferrer" class="bg-workshop-800 hover:bg-chevy-orange text-white text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5">
+                            Otwórz sklep <i class="fa-solid fa-external-link-alt text-[10px]"></i>
+                        </a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // -------------------------------------------------------------------------
+        // 9. TAB 3: USA IMPORT CALCULATOR
+        // -------------------------------------------------------------------------
+        function calculateImport() {
+            const partsUsd = parseFloat(document.getElementById('calcPartsUsd').value) || 0;
+            const shipUsd = parseFloat(document.getElementById('calcShippingUsd').value) || 0;
+            const rate = parseFloat(document.getElementById('calcRate').value) || 4.05;
+            const dutyRate = parseFloat(document.getElementById('calcDuty').value) || 0;
+
+            const totalUsd = partsUsd + shipUsd;
+            const netPln = totalUsd * rate;
+            const dutyPln = netPln * dutyRate;
+            const vatPln = (netPln + dutyPln) * 0.23;
+            const finalPln = netPln + dutyPln + vatPln;
+
+            document.getElementById('resTotalUsd').textContent = `$${totalUsd.toFixed(2)}`;
+            document.getElementById('resNetPln').textContent = `${netPln.toFixed(2)} zł`;
+            document.getElementById('resDutyPln').textContent = `${dutyPln.toFixed(2)} zł`;
+            document.getElementById('resVatPln').textContent = `${vatPln.toFixed(2)} zł`;
+            document.getElementById('resFinalPln').textContent = `${finalPln.toFixed(2)} zł`;
+        }
+
+        // -------------------------------------------------------------------------
+        // 10. TAB 4: WORKSHOP CLIPBOARD & EXPORT
+        // -------------------------------------------------------------------------
+        function toggleClipboardItem(partId) {
+            const index = state.clipboard.findIndex(item => item.id === partId);
+            const part = partsData.find(p => p.id === partId);
+            if (!part) return;
+
+            if (index > -1) {
+                state.clipboard.splice(index, 1);
+                showToast(`Usunięto ze schowka: ${part.namePl}`);
+            } else {
+                state.clipboard.push({ id: part.id, qty: 1 });
+                showToast(`Dodano do schowka: ${part.namePl}`);
+            }
+
+            saveClipboard();
+            applyFilters();
+            updateClipboardUI();
+        }
+
+        function updateItemQty(partId, delta) {
+            const item = state.clipboard.find(i => i.id === partId);
+            if (!item) return;
+            item.qty = Math.max(1, item.qty + delta);
+            saveClipboard();
+            updateClipboardUI();
+        }
+
+        function clearShoppingList() {
+            state.clipboard = [];
+            saveClipboard();
+            applyFilters();
+            updateClipboardUI();
+            showToast('Wyczyszczono schowek warsztatowy');
+        }
+
+        function saveClipboard() {
+            localStorage.setItem('chevy94_clipboard', JSON.stringify(state.clipboard));
+        }
+
+        function updateClipboardUI() {
+            document.getElementById('clipboardBadge').textContent = state.clipboard.length;
+            const container = document.getElementById('clipboardListContainer');
+            const previewWrapper = document.getElementById('exportPreviewWrapper');
+            const exportTextarea = document.getElementById('exportTextarea');
+
+            if (state.clipboard.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-workshop-950 border border-workshop-800 rounded-xl p-8 text-center space-y-2">
+                        <i class="fa-solid fa-clipboard text-2xl text-gray-600"></i>
+                        <p class="text-sm font-semibold text-gray-300">Twój schowek warsztatowy jest pusty</p>
+                        <p class="text-xs text-gray-500">Kliknij ikonę listy przy dowolnej części w katalogu, aby przygotować listę zakupową lub zapytanie ofertowe.</p>
+                    </div>
+                `;
+                previewWrapper.classList.add('hidden');
+                return;
+            }
+
+            container.innerHTML = '';
+            let exportLines = [
+                `Dzień dobry,`,
+                `Proszę o wycenę i dostępność następujących części do samochodu:`,
+                `Pojazd: 1994 Chevrolet ${state.driveType === '4WD' ? 'K1500 (4x4)' : 'C1500 (2WD)'} Pickup (GMT400)`,
+                `Silnik: 5.7L V8 (350ci) TBI 200 KM (8. znak VIN: K)`,
+                `------------------------------------------------------------`
+            ];
+
+            state.clipboard.forEach((entry, idx) => {
+                const part = partsData.find(p => p.id === entry.id);
+                if (!part) return;
+
+                exportLines.push(`${idx + 1}. ${part.namePl} (${part.nameEn}) — Ilość: ${entry.qty} szt. | OEM GM: ${part.oem} | ACDelco: ${part.acdelco}`);
+
+                const row = document.createElement('div');
+                row.className = 'bg-workshop-950 border border-workshop-700 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+                row.innerHTML = `
+                    <div>
+                        <div class="text-sm font-bold text-white">${part.namePl}</div>
+                        <div class="text-xs font-mono text-gray-400">OEM: ${part.oem} • ACDelco: ${part.acdelco}</div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center bg-workshop-800 rounded-lg border border-workshop-600">
+                            <button onclick="updateItemQty(${part.id}, -1)" class="px-2.5 py-1 text-xs font-bold text-gray-300 hover:text-white">-</button>
+                            <span class="px-2.5 py-1 text-xs font-mono font-bold text-white">${entry.qty} szt.</span>
+                            <button onclick="updateItemQty(${part.id}, 1)" class="px-2.5 py-1 text-xs font-bold text-gray-300 hover:text-white">+</button>
+                        </div>
+                        <button onclick="toggleClipboardItem(${part.id})" class="text-red-400 hover:text-red-300 p-2 text-xs" title="Usuń">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            exportLines.push(`------------------------------------------------------------`);
+            exportLines.push(`Z góry dziękuję za informację o cenach i czasie realizacji.`);
+
+            exportTextarea.value = exportLines.join('\n');
+            previewWrapper.classList.remove('hidden');
+        }
+
+        function copyShoppingList() {
+            const textarea = document.getElementById('exportTextarea');
+            if (!textarea || state.clipboard.length === 0) {
+                showToast('Najpierw dodaj części do schowka!');
+                return;
+            }
+            copyToClipboard(textarea.value, 'Skopiowano gotowe zapytanie ofertowe do schowka!');
+        }
+
+        // -------------------------------------------------------------------------
+        // 11. NAVIGATION TABS & UTILITIES
+        // -------------------------------------------------------------------------
+        function switchTab(tabName) {
+            ['catalog', 'shops', 'calculator', 'clipboard'].forEach(t => {
+                const view = document.getElementById('view-' + t);
+                const btn = document.getElementById('tab-' + t);
+                if (t === tabName) {
+                    view.classList.remove('hidden');
+                    btn.className = 'tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all bg-chevy-orange text-white shadow-md flex items-center gap-2';
+                } else {
+                    view.classList.add('hidden');
+                    btn.className = 'tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all text-gray-400 hover:bg-workshop-800 hover:text-white flex items-center gap-2';
+                }
+            });
+        }
+
+        function quickCopy(text, msg) {
+            copyToClipboard(text, msg);
+        }
+
+        function copyToClipboard(text, successMsg) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast(successMsg);
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-workshop-800 border border-chevy-orange text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 animate-fade-in';
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-chevy-orange"></i><span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 2800);
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
